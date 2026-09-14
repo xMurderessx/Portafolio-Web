@@ -1,5 +1,7 @@
 const entryScreen = document.querySelector("#entryScreen");
 const sigilButton = document.querySelector("#sigilButton");
+const menuToggle = document.querySelector("#menuToggle");
+const mobileMenu = document.querySelector("#mobileMenu");
 const revealElements = document.querySelectorAll(".reveal-on-scroll");
 
 let hasOpened = false;
@@ -78,5 +80,27 @@ sigilButton.addEventListener("pointerleave", () => {
     sigilButton.classList.remove("is-armed");
   }
 });
+
+if (menuToggle && mobileMenu) {
+  const closeMobileMenu = () => {
+    menuToggle.classList.remove("is-open");
+    mobileMenu.classList.remove("is-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Abrir menú");
+  };
+
+  menuToggle.addEventListener("click", () => {
+    const willOpen = !mobileMenu.classList.contains("is-open");
+
+    menuToggle.classList.toggle("is-open", willOpen);
+    mobileMenu.classList.toggle("is-open", willOpen);
+    menuToggle.setAttribute("aria-expanded", String(willOpen));
+    menuToggle.setAttribute("aria-label", willOpen ? "Cerrar menú" : "Abrir menú");
+  });
+
+  mobileMenu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", closeMobileMenu);
+  });
+}
 
 setupScrollReveal();
