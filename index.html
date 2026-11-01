@@ -96,30 +96,34 @@
       </div>
 
       <div class="skill-grid">
-        <article class="skill-square skill-ai reveal-on-scroll" title="Adobe Illustrator">
+        <button type="button" class="skill-square skill-ai reveal-on-scroll" title="Adobe Illustrator" data-category="illustrator" aria-pressed="false" aria-controls="projectGallery">
           <img src="images/Aplicaciones/illustrator.svg" alt="Adobe Illustrator" class="app-icon">
-        </article>
+        </button>
 
-        <article class="skill-square skill-ps reveal-on-scroll" title="Adobe Photoshop">
+        <button type="button" class="skill-square skill-ps reveal-on-scroll" title="Adobe Photoshop" data-category="photoshop" aria-pressed="false" aria-controls="projectGallery">
           <img src="images/Aplicaciones/photoshop.svg" alt="Adobe Photoshop" class="app-icon">
-        </article>
+        </button>
 
-        <article class="skill-square skill-an reveal-on-scroll" title="Adobe Animate">
+        <button type="button" class="skill-square skill-an reveal-on-scroll" title="Adobe Animate" data-category="animate" aria-pressed="false" aria-controls="projectGallery">
           <img src="images/Aplicaciones/animate.svg" alt="Adobe Animate" class="app-icon">
-        </article>
+        </button>
 
-        <article class="skill-square skill-draw reveal-on-scroll" title="Dibujo e Ilustración">
+        <button type="button" class="skill-square skill-draw reveal-on-scroll" title="Dibujo e Ilustración" data-category="dibujo" aria-pressed="false" aria-controls="projectGallery">
           <img src="images/Aplicaciones/dibujo.svg" alt="Dibujo e Ilustración" class="app-icon">
-        </article>
+        </button>
 
-        <article class="skill-square skill-photo reveal-on-scroll" title="Fotografía">
+        <button type="button" class="skill-square skill-photo reveal-on-scroll" title="Fotografía" data-category="fotografia" aria-pressed="false" aria-controls="projectGallery">
           <img src="images/Aplicaciones/fotografia.svg" alt="Fotografía" class="app-icon">
-        </article>
+        </button>
 
-        <article class="skill-square skill-git reveal-on-scroll" title="GitHub">
+        <button type="button" class="skill-square skill-git reveal-on-scroll" title="GitHub" data-category="github" aria-pressed="false" aria-controls="projectGallery">
           <img src="images/Aplicaciones/github.svg" alt="GitHub" class="app-icon">
-        </article>
+        </button>
       </div>
+      <section class="project-gallery" id="projectGallery" aria-labelledby="galleryTitle" hidden>
+        <h3 id="galleryTitle"></h3>
+        <div class="project-grid" id="projectGrid"></div>
+      </section>
     </section>
 
     <!-- NUEVA SECCIÓN: IKIGAI -->
