@@ -197,6 +197,15 @@ const categoryButtons = document.querySelectorAll(".skill-square[data-category]"
 const projectGallery = document.querySelector("#projectGallery");
 const projectGrid = document.querySelector("#projectGrid");
 const galleryTitle = document.querySelector("#galleryTitle");
+const animationObserver = "IntersectionObserver" in window
+  ? new IntersectionObserver(entries => entries.forEach(({ target, isIntersecting }) => {
+      if (isIntersecting && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        target.play().catch(() => {});
+      } else {
+        target.pause();
+      }
+    }))
+  : null;
 
 function projectLink(label, url) {
   const link = document.createElement("a");
@@ -278,21 +287,29 @@ function selectProjectCategory(categoryKey) {
   galleryTitle.textContent = category.title;
   projectGrid.classList.toggle("project-grid--github", categoryKey === "github");
   projectGrid.querySelectorAll("video").forEach((video) => video.pause());
+  if (animationObserver) animationObserver.disconnect();
   const cards = category.projects.map((project) => {
     if (project.type === "website") return websiteCard(project);
+    const media = typeof optimizedMedia !== "undefined" ? optimizedMedia[project.src] : null;
     const card = document.createElement("figure");
     card.className = "project-card";
 
     const caption = document.createElement("figcaption");
     caption.textContent = project.title;
-    if (project.type === "video") {
+    if (project.type === "video" || media?.type === "video") {
       const video = document.createElement("video");
       video.controls = true;
       video.playsInline = true;
-      video.preload = "metadata";
+      video.preload = "none";
+      if (media?.poster) video.poster = media.poster;
+      if (media?.animated) {
+        video.muted = true;
+        video.loop = true;
+        if (animationObserver) animationObserver.observe(video);
+      }
       video.setAttribute("aria-label", project.title);
       const source = document.createElement("source");
-      source.src = project.src;
+      source.src = media?.src || project.src;
       source.type = "video/mp4";
       video.append(source, projectLink("Abrir video", project.src));
       card.append(video, caption);
@@ -306,7 +323,11 @@ function selectProjectCategory(categoryKey) {
     link.setAttribute("aria-label", `Ver ${project.title} en tamaño completo (nueva pestaña)`);
 
     const img = document.createElement("img");
-    img.src = project.src;
+    img.src = media?.src || project.src;
+    if (media?.small) {
+      img.srcset = `${media.small} 640w, ${media.src} 1280w`;
+      img.sizes = "(max-width: 560px) 88vw, (max-width: 860px) 44vw, 340px";
+    }
     img.alt = project.title;
     img.loading = "lazy";
     img.decoding = "async";
